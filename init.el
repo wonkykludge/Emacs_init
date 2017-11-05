@@ -58,8 +58,55 @@
 ;; Then open Python file.
 
 ;; Standard Jedi.el setting
-(add-hook 'python-mode-hook 'jedi:setup)
+
+(defun project-directory (buffer-name)
+  "Returns the root directory of the project that contains the
+given buffer. Any directory with a .git directory is considered
+to be a project root."
+  (let ((git-dir (file-name-directory buffer-name)))
+    (while (and (not (file-exists-p (concat git-dir ".git")))
+                git-dir)
+      (setq git-dir
+            (if (equal git-dir "/")
+                nil
+              (file-name-directory (directory-file-name git-dir)))))
+    git-dir))
+
+(defun project-name (buffer-name)
+  "Returns the name of the project that contains the given buffer."
+  (let ((git-dir (project-directory buffer-name)))
+    (if git-dir
+        (file-name-nondirectory
+         (directory-file-name git-dir))
+      nil)))
+
+(defun virtualenv-directory (buffer-name)
+  "Returns the virtualenv that corresponds to the given
+buffer. Virtualenvs are assumed to be in ~/.virtualenvs/ and to
+have the same name as the project that uses them."
+  (let ((project-name (project-name buffer-name)))
+    (when project-name
+      (let ((venv-dir (expand-file-name (concat "~/.virtualenvs/" project-name))))
+        (when (file-exists-p venv-dir)
+          venv-dir)))))
+
+(defun jedi-setup-args ()
+  "Defines a buffer local jedi:server-args variable with the
+virtualenv path of the current buffer. If the current buffer
+doesn't belong to a project, and has no virtualenv of its own,
+the most recently found virtualenv will be used."
+  (let ((venv-dir (virtualenv-directory buffer-file-name)))
+    (when venv-dir
+        (setq jedi-last-venv-dir venv-dir))
+    (when (and (boundp 'jedi-last-venv-dir) jedi-last-venv-dir)
+      (set (make-local-variable 'jedi:server-args) (list "--virtual-env" jedi-last-venv-dir)))))
+
+(global-set-key (kbd "C-c f") 'jedi:goto-definition)
+(setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
+(add-hook 'python-mode-hook 'jedi-setup-args)
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-hook 'python-mode-hook 'auto-complete-mode)
 
 (delete-selection-mode 1)
 
