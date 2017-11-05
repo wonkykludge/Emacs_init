@@ -122,3 +122,12 @@ the most recently found virtualenv will be used."
  (add-to-list 'auto-mode-alist '("\\.cfm$" . html-mode))
 
 (add-hook 'python-mode-hook 'anaconda-mode)
+
+(defun ruthlessly-kill-line ()
+  "Deletes a line, but does not put it in the kill-ring. (kinda)"
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line 1)
+  (setq kill-ring (cdr kill-ring)))
+
+(global-set-key (kbd "C-k") 'ruthlessly-kill-line)
