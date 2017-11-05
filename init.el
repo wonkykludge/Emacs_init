@@ -19,7 +19,9 @@
     flycheck
     ample-theme
     py-autopep8
-    undo-tree))
+    undo-tree
+    js2-mode
+    anaconda-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -50,6 +52,26 @@
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
+;; Type:
+;;     M-x package-install RET jedi RET
+;;     M-x jedi:install-server RET
+;; Then open Python file.
+
+;; Standard Jedi.el setting
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
 (delete-selection-mode 1)
-;; init.el ends here
+
+(require 'js2-refactor)
+
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(js2r-add-keybindings-with-prefix "C-c C-r")
+(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+ (add-to-list 'auto-mode-alist '("\\.css$" . html-mode))
+ (add-to-list 'auto-mode-alist '("\\.cfm$" . html-mode))
+
+(add-hook 'python-mode-hook 'anaconda-mode)
