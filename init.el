@@ -17,11 +17,12 @@
     ein
     elpy
     flycheck
+    popup
     ample-theme
     py-autopep8
     undo-tree
-    js2-mode
-    anaconda-mode))
+    pos-tip
+    js2-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -101,12 +102,12 @@ the most recently found virtualenv will be used."
     (when (and (boundp 'jedi-last-venv-dir) jedi-last-venv-dir)
       (set (make-local-variable 'jedi:server-args) (list "--virtual-env" jedi-last-venv-dir)))))
 
-(global-set-key (kbd "C-c f") 'jedi:goto-definition)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
 (add-hook 'python-mode-hook 'jedi-setup-args)
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'python-mode-hook 'auto-complete-mode)
+
 
 (delete-selection-mode 1)
 
@@ -121,7 +122,6 @@ the most recently found virtualenv will be used."
  (add-to-list 'auto-mode-alist '("\\.css$" . html-mode))
  (add-to-list 'auto-mode-alist '("\\.cfm$" . html-mode))
 
-(add-hook 'python-mode-hook 'anaconda-mode)
 
 (defun ruthlessly-kill-line ()
   "Deletes a line, but does not put it in the kill-ring. (kinda)"
