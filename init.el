@@ -22,6 +22,7 @@
     py-autopep8
     undo-tree
     pos-tip
+    jedi
     js2-mode))
 
 (mapc #'(lambda (package)
