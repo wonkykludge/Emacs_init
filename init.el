@@ -41,7 +41,6 @@
 ;; --------------------------------------
 
 (elpy-enable)
-(elpy-use-ipython)
 (global-undo-tree-mode t)
 (tool-bar-mode -1)
 (menu-bar-mode -1) 
