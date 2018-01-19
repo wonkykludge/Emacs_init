@@ -22,6 +22,7 @@
     py-autopep8
     undo-tree
     pos-tip
+    jedi
     js2-mode))
 
 (mapc #'(lambda (package)
@@ -42,7 +43,6 @@
 (setq elpy-rpc-python-command "python")
 
 (elpy-enable)
-
 (global-undo-tree-mode t)
 (tool-bar-mode -1)
 (menu-bar-mode -1) 
