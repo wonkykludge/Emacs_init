@@ -38,9 +38,11 @@
 
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
+(setq elpy-rpc-backend "jedi")
+(setq elpy-rpc-python-command "python")
 
 (elpy-enable)
-(elpy-use-ipython)
+
 (global-undo-tree-mode t)
 (tool-bar-mode -1)
 (menu-bar-mode -1) 
@@ -131,3 +133,17 @@ the most recently found virtualenv will be used."
   (setq kill-ring (cdr kill-ring)))
 
 (global-set-key (kbd "C-k") 'ruthlessly-kill-line)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (popup-complete undo-tree py-autopep8 pos-tip js2-refactor jedi flycheck elpy ein better-defaults ample-theme))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
