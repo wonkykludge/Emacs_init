@@ -23,6 +23,7 @@
     undo-tree
     pos-tip
     jedi
+    gud
     js2-mode))
 
 (mapc #'(lambda (package)
@@ -52,6 +53,8 @@
 ;; enable autopep8 formatting on save
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+(require 'gud)
 
 ;; Type:
 ;;     M-x package-install RET jedi RET
